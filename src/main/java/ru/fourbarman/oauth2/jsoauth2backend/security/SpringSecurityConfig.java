@@ -57,7 +57,12 @@ public class SpringSecurityConfig {
 
                 .oauth2ResourceServer() // включаем защиту OAuth2 для данного backend
                 .jwt()
-                .jwtAuthenticationConverter(jwtAuthenticationConverter); // добавляем конвертер ролей из JWT в Authority (Role)
+                .jwtAuthenticationConverter(jwtAuthenticationConverter) // добавляем конвертер ролей из JWT в Authority (Role)
+
+                .and()
+                //обработчик ошибок для библиотеки OAuth2
+                //важно объявить его после jwt() - библиотеки oauth2
+                .authenticationEntryPoint(new OAuth2ExceptionHandler());
 
         return http.build();
     }
